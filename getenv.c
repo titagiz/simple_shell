@@ -22,7 +22,7 @@ char **get_environ(info_t *info)
  * unset_env - Remove an environment variable
  * @info: Structure containing potential arguments. Used to maintain
  *        constant function prototype.
- *
+ * @var: a certain variable
  *
  *  Return: 1 on delete, 0 otherwise
  */

@@ -1,5 +1,3 @@
-/* LIBRARIES AND DEFINITIONS */
-
 #ifndef SHELL_H
 #define SHELL_H
 
@@ -38,14 +36,21 @@
 
 extern char **environ;
 
-typedef struct liststr
+/*
+ * this is a struct
+ * it has three members
+ */typedef struct liststr
 {
 	int num;
 	char *str;
 	struct liststr *next;
 } list_t;
 
-typedef struct passinfo
+/*
+ * this is also a struct
+ * it has more than three
+ * members
+ */typedef struct passinfo
 {
 	char *arg;
 	char **argv;
@@ -72,7 +77,11 @@ typedef struct passinfo
 {NULL, NULL, NULL, 0, 0, 0, 0, NULL, NULL, NULL, NULL, NULL, 0, 0, NULL, \
 		0, 0, 0}
 
-typedef struct builtin
+/*
+ * this is yet again, a struct
+ * it is poor
+ * and only has two membes
+ */typedef struct builtin
 {
 	char *type;
 	int (*func)(info_t *);

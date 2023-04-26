@@ -13,7 +13,7 @@ int str_toi(char *s)
 	unsigned long int result = 0;
 
 	if (*s == '+')
-		s++; 
+		s++;
 	for (i = 0;  s[i] != '\0'; i++)
 	{
 		if (s[i] >= '0' && s[i] <= '9')
@@ -60,7 +60,7 @@ void print_error(info_t *info, char *estr)
 int print_decimal(int input, int fd)
 {
 	int (*__putchars)(char) = _putchars;
-	int i, count= 0;
+	int i, count = 0;
 	unsigned int _abs_, current;
 
 	if (fd == STDERR_FILENO)
