@@ -16,8 +16,8 @@ int hsh(info_t *info, char **av)
 	{
 		clear_info(info);
 		if (interactive(info))
-			_puts("$ ");
-		_eputchar(BUF_FLUSH);
+			_putss("$ ");
+		_putchars(BUF_FLUSH);
 		r = get_input(info);
 		if (r != -1)
 		{
@@ -27,7 +27,7 @@ int hsh(info_t *info, char **av)
 				find_cmd(info);
 		}
 		else if (interactive(info))
-			_putchar('\n');
+			_putchars('\n');
 		free_info(info, 0);
 	}
 	write_history(info);
@@ -43,6 +43,7 @@ int hsh(info_t *info, char **av)
 	return (builtin_ret);
 }
 
+
 /**
  * find_builtin - finds a builtin command
  * @info: the parameter & return info struct
@@ -56,14 +57,14 @@ int find_builtin(info_t *info)
 {
 	int i, built_in_ret = -1;
 	builtin_table builtintbl[] = {
-		{"exit", _myexit},
-		{"env", _myenv},
-		{"help", _myhelp},
-		{"history", _myhistory},
-		{"setenv", _mysetenv},
-		{"unsetenv", _myunsetenv},
-		{"cd", _mycd},
-		{"alias", _myalias},
+		{"exit", my_exit},
+		{"env", my_env},
+		{"help", my_help},
+		{"history", my_history},
+		{"setenv", my_set_env},
+		{"unsetenv", my_unset_env},
+		{"cd", my_cd},
+		{"alias", my_alias},
 		{NULL, NULL}
 	};
 
@@ -76,6 +77,7 @@ int find_builtin(info_t *info)
 		}
 	return (built_in_ret);
 }
+
 
 /**
  * find_cmd - finds a command in PATH
@@ -95,12 +97,12 @@ void find_cmd(info_t *info)
 		info->linecount_flag = 0;
 	}
 	for (i = 0, k = 0; info->arg[i]; i++)
-		if (!is_delim(info->arg[i], " \t\n"))
+		if (!is_delimiter(info->arg[i], " \t\n"))
 			k++;
 	if (!k)
 		return;
 
-	path = find_path(info, _getenv(info, "PATH="), info->argv[0]);
+	path = path_finder(info, get_env(info, "PATH="), info->argv[0]);
 	if (path)
 	{
 		info->path = path;
@@ -108,7 +110,7 @@ void find_cmd(info_t *info)
 	}
 	else
 	{
-		if ((interactive(info) || _getenv(info, "PATH=")
+		if ((interactive(info) || get_env(info, "PATH=")
 					|| info->argv[0][0] == '/') && is_cmd(info, info->argv[0]))
 			fork_cmd(info);
 		else if (*(info->arg) != '\n')
@@ -118,6 +120,7 @@ void find_cmd(info_t *info)
 		}
 	}
 }
+
 
 /**
  * fork_cmd - forks a an exec thread to run cmd

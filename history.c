@@ -11,7 +11,7 @@ char *get_history_file(info_t *info)
 {
 	char *buf, *dir;
 
-	dir = _getenv(info, "HOME=");
+	dir = get_env(info, "HOME=");
 	if (!dir)
 		return (NULL);
 	buf = malloc(sizeof(char) * (_strlen(dir) + _strlen(HIST_FILE) + 2));
@@ -23,6 +23,7 @@ char *get_history_file(info_t *info)
 	_strcat(buf, HIST_FILE);
 	return (buf);
 }
+
 
 /**
  * write_history - creates a file, or appends to an existing file
@@ -45,13 +46,14 @@ int write_history(info_t *info)
 		return (-1);
 	for (node = info->history; node; node = node->next)
 	{
-		_putsfd(node->str, fd);
-		_putfd('\n', fd);
+		puts_fd(node->str, fd);
+		put_fd('\n', fd);
 	}
-	_putfd(BUF_FLUSH, fd);
+	put_fd(BUF_FLUSH, fd);
 	close(fd);
 	return (1);
 }
+
 
 /**
  * read_history - reads history from file
@@ -102,6 +104,7 @@ int read_history(info_t *info)
 	return (info->histcount);
 }
 
+
 /**
  * build_history_list - adds entry to a history linked list
  * @info: Structure containing potential arguments. Used to maintain
@@ -123,6 +126,7 @@ int build_history_list(info_t *info, char *buf, int linecount)
 	return (0);
 }
 
+
 /**
  * renumber_history - renumbers the history linked list after changes
  * @info: Structure containing potential arguments. Used to maintain
@@ -141,4 +145,3 @@ int renumber_history(info_t *info)
 	}
 	return (info->histcount = i);
 }
-

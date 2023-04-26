@@ -22,6 +22,7 @@ int is_cmd(info_t *info, char *path)
 	return (0);
 }
 
+
 /**
  * dup_chars - duplicates characters
  * @pathstr: the PATH string
@@ -42,15 +43,16 @@ char *dup_chars(char *pathstr, int start, int stop)
 	return (buf);
 }
 
+
 /**
- * find_path - finds this cmd in the PATH string
+ * path_finder - finds this cmd in the PATH string
  * @info: the info struct
  * @pathstr: the PATH string
  * @cmd: the cmd to find
  *
  * Return: full path of cmd if found or NULL
  */
-char *find_path(info_t *info, char *pathstr, char *cmd)
+char *path_finder(info_t *info, char *pathstr, char *cmd)
 {
 	int i = 0, curr_pos = 0;
 	char *path;
@@ -84,4 +86,3 @@ char *find_path(info_t *info, char *pathstr, char *cmd)
 	}
 	return (NULL);
 }
-

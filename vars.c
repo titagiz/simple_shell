@@ -24,9 +24,9 @@ int is_chain(info_t *info, char *buf, size_t *p)
 		j++;
 		info->cmd_buf_type = CMD_AND;
 	}
-	else if (buf[j] == ';') /* found end of this command */
+	else if (buf[j] == ';')
 	{
-		buf[j] = 0; /* replace semicolon with null */
+		buf[j] = 0;
 		info->cmd_buf_type = CMD_CHAIN;
 	}
 	else
@@ -34,6 +34,7 @@ int is_chain(info_t *info, char *buf, size_t *p)
 	*p = j;
 	return (1);
 }
+
 
 /**
  * check_chain - checks we should continue chaining based on last status
@@ -69,6 +70,7 @@ void check_chain(info_t *info, char *buf, size_t *p, size_t i, size_t len)
 	*p = j;
 }
 
+
 /**
  * replace_alias - replaces an aliases in the tokenized string
  * @info: the parameter struct
@@ -83,7 +85,7 @@ int replace_alias(info_t *info)
 
 	for (i = 0; i < 10; i++)
 	{
-		node = node_starts_with(info->alias, info->argv[0], '=');
+		node = node_start(info->alias, info->argv[0], '=');
 		if (!node)
 			return (0);
 		free(info->argv[0]);
@@ -97,6 +99,7 @@ int replace_alias(info_t *info)
 	}
 	return (1);
 }
+
 
 /**
  * replace_vars - replaces vars in the tokenized string
@@ -126,7 +129,7 @@ int replace_vars(info_t *info)
 					_strdup(convert_number(getpid(), 10, 0)));
 			continue;
 		}
-		node = node_starts_with(info->env, &info->argv[i][1], '=');
+		node = node_start(info->env, &info->argv[i][1], '=');
 		if (node)
 		{
 			replace_string(&(info->argv[i]),
@@ -138,6 +141,7 @@ int replace_vars(info_t *info)
 	}
 	return (0);
 }
+
 
 /**
  * replace_string - replaces string
@@ -152,4 +156,3 @@ int replace_string(char **old, char *new)
 	*old = new;
 	return (1);
 }
-
